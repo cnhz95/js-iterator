@@ -1,34 +1,33 @@
-// Using a regular object
+// Using a constructor function
 function Iterator(array) {
-    index = 0;
-    return {
-        next: function() {
-            return array[index++];
-        },
-        hasNext: function() {
-            return index < array.length;
-        }
-    };
+    this.index = 0;
+    this.array = array;
+    this.next = function() {
+        return this.array[this.index++];
+    }
+    this.hasNext = function() {
+        return this.index < this.array.length;
+    }
 }
 
 const nums = [1, 2, 3, 4, 5];
-let it = Iterator(nums);
+var it = new Iterator(nums);
 
-while(it.hasNext()){
+while (it.hasNext()) {
     console.log(it.next());
 }
 
 
 // Using the prototype mechanism
 Array.prototype.iterator = function() {
-    let index = 0;
-    let array = this;
     return {
+        index: 0,
+        array: this,
         next: function() {
-            return array[index++];
+            return this.array[this.index++];
         },
         hasNext: function() {
-            return index < array.length;
+            return this.index < this.array.length;
         }
     };
 }
@@ -36,6 +35,6 @@ Array.prototype.iterator = function() {
 const vowels = new Array('a', 'e', 'i', 'o', 'u');
 it = vowels.iterator();
 
-while(it.hasNext()){
+while (it.hasNext()) {
     console.log(it.next());
 }
